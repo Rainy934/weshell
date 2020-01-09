@@ -1,0 +1,36 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body, .we-shell {
+  width: 100%;
+  height: 100%;
+}
+.we-shell {
+  padding: 10px;
+  background-color: #222222;
+  font-size: 14px;
+}
+.line-item {
+  display: flex;
+  color: #ffffff;
+}
+
+.host-head {
+  display: flex;
+  padding-right: 10px;
+}
+
+.command-text {
+  display: flex;
+}
+
+input {
+  display: flex;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 14px;
+  padding-bottom: 1px;
+}

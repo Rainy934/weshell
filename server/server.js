@@ -2,7 +2,7 @@ const server = require('http').createServer();
 
 const io = require('socket.io')(server);
 
-const events = require('./event')
+const events = require('./event.routes')
 
 const clientArr = []
 
@@ -21,10 +21,11 @@ io.on('connection', client => {
 
 server.listen(931)
 
-
 function registerEvent (client, events = []) {
   if (!client) return
   events.forEach((event) => {
-    client.on(event.name, event.listener)
+    client.on(event.name, (data) => {
+      event.listener(data, client)
+    })
   })
 }
