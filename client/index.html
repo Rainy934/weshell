@@ -15,10 +15,14 @@
   </head>
   <body>
     <div class="we-shell" id="app" @click="clickBlur">
-      <div class="line-item">
+      <div class="line-item" v-for="(message, index) in messages" :key="index">
+        <div class="host-head content" v-if="message.type === 'normal'" v-html="message.data"></div>
+        <div class="host-head" v-if="message.type === 'command'">{{message.data}}</div>
+      </div>
+      <div class="line-item" v-if="ready">
         <div class="host-head">{{host}}</div>
         <div class="command-text">
-          <input ref="input" spellcheck="false" v-model="command" type="text">
+          <input ref="input" spellcheck="false" v-model="command" type="text" @keyup.enter="submitCommand">
         </div>
       </div>
     </div>
