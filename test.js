@@ -1,5 +1,7 @@
 const { spawn } = require('child_process');
-const ls = spawn('ls', ['-lh', '/usr']);
+
+const ls2 = spawn('cd', ['..'])
+const ls = spawn('pwd')
 
 ls.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
@@ -7,10 +9,5 @@ ls.stdout.on('data', (data) => {
 
 ls.stderr.on('data', (data) => {
   console.error(`stderr: ${data}`);
-});
+})
 
-ls.on('close', (code) => {
-  console.log(`子进程退出，退出码 ${code}`);
-});
-
-console.log(process.argv.slice(2))

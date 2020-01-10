@@ -3,6 +3,7 @@ var app = new Vue({
   data: {
     socket: null,
     host: '',
+    root_path: '',
     command: '',
     messages: [],
     ready: true
@@ -13,7 +14,8 @@ var app = new Vue({
   mounted () {
     this.socket.emit('host_info', 'hello world')
     this.socket.on('host_info', (host) => {
-      this.host = host
+      this.host = `${host.host_name} ${host.user_name}$`
+      this.root_path = host.root_path
     })
     this.$refs.input.focus()
     this.socket.on('command', (res) => {
@@ -31,6 +33,13 @@ var app = new Vue({
   },
   methods: {
     submitCommand () {
+      if (!this.command) {
+        this.messages.push( {
+          type: 'command',
+          data: `${this.host} ${this.command}`
+        })
+        return
+      }
       if (this.command === 'clear') {
         this.messages = []
         this.command = ''

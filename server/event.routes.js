@@ -1,5 +1,6 @@
 const EVENTS = require('../public/events')
 const { spawn } = require('child_process')
+const os = require('os')
 const minimist = require('minimist')
 
 module.exports = [
@@ -7,7 +8,14 @@ module.exports = [
     name: EVENTS.HOST_INFO,
     listener: function (data, client) {
       console.log(`HOSTINFO ${new Date().toISOString()} ${data}`)
-      client.emit(EVENTS.HOST_INFO, 'xhy@127.0.0.1 ~$')
+      let host_name = os.hostname()
+      let root_path = os.homedir()
+      let user_name = os.homedir().split('/').pop()
+      client.emit(EVENTS.HOST_INFO, {
+        host_name,
+        user_name,
+        root_path
+      })
     }
   },
   {
