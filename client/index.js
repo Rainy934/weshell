@@ -16,25 +16,34 @@ var app = new Vue({
       this.host = host
     })
     this.$refs.input.focus()
+    this.socket.on('command', (res) => {
+      res.data = res.data.replace(/\n/g, '<br>')
+      res.data = res.data.replace(/\s/g, '&nbsp')
+      this.messages.push( {
+        type: 'command',
+        data: `${this.host} ${this.command}`
+      })
+      this.messages.push(res)
+      this.command = ''
+      this.ready = true
+      this.clickBlur()
+    })
   },
   methods: {
     submitCommand () {
+      if (this.command === 'clear') {
+        this.messages = []
+        this.command = ''
+        this.clickBlur()
+        return
+      }
       this.ready = false
       this.socket.emit('command', this.command)
-      this.socket.on('command', (res) => {
-        res.data = res.data.replace(/\n/g, '<br>')
-        res.data = res.data.replace(/\s/g, '&nbsp')
-        this.messages.push( {
-          type: 'command',
-          data: `${this.host} ${this.command}`
-        })
-        this.messages.push(res)
-        this.command = ''
-        this.ready = true
-      })
     },
     clickBlur () {
-      this.$refs.input.focus()
+      this.$nextTick(() => {
+        this.$refs.input.focus()
+      })
     }
   }
 })

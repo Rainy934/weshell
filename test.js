@@ -12,3 +12,5 @@ ls.stderr.on('data', (data) => {
 ls.on('close', (code) => {
   console.log(`子进程退出，退出码 ${code}`);
 });
+
+console.log(process.argv.slice(2))
