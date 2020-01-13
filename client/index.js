@@ -19,13 +19,15 @@ var app = new Vue({
     })
     this.$refs.input.focus()
     this.socket.on('command', (res) => {
-      res.data = res.data.replace(/\n/g, '<br>')
-      res.data = res.data.replace(/\s/g, '&nbsp')
       this.messages.push( {
         type: 'command',
         data: `${this.host} ${this.command}`
       })
-      this.messages.push(res)
+      if (res.type !== 'exit') {
+        res.data = res.data.replace(/\n/g, '<br>')
+        res.data = res.data.replace(/\s/g, '&nbsp')
+        this.messages.push(res)
+      }
       this.command = ''
       this.ready = true
       this.clickBlur()

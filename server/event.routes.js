@@ -53,5 +53,10 @@ function execute (command, args = []) {
         data: data.toString()
       })
     })
+    res.on('exit', () => {
+      reslove({
+        type: 'exit'
+      })
+    })
   })
 }
